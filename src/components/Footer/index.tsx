@@ -14,14 +14,11 @@ const Footer: React.FC = () => {
         className={styles.logo}
       />
       <div className={styles.linkContainer}>
-        {/* <Link className={styles.link} href={"https://www.google.com/"}>
-          Download
-        </Link> */}
         <div className={styles.linkRow}>
-          <Link className={styles.link} href="/privacy-policy">
+          <Link className={styles.link} href="/">
             Privacy Policy
           </Link>
-          <Link className={styles.link} href="/terms-of-service">
+          <Link className={styles.link} href="/">
             Terms of Service
           </Link>
         </div>

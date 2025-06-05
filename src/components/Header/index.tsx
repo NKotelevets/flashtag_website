@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         className={styles.logo}
       />
       <div className={styles.linkContainer}>
-        <Link className={styles.link} href={"https://www.google.com/"}>
+        <Link className={styles.link} href={"/"}>
           Download
         </Link>
       </div>

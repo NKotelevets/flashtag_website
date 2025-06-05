@@ -13,7 +13,7 @@ export default function Home() {
         and shine - one clip at a time.
       </h2>
       <div className={styles.linkContainer}>
-        <Link className={styles.link} href={"https://www.google.com/"}>
+        <Link className={styles.link} href={"/"}>
           Download
         </Link>
       </div>
@@ -27,7 +27,7 @@ export default function Home() {
         />
       </div>
 
-      <Link className={styles.link} href={"https://www.google.com/"}>
+      <Link className={styles.link} href={"/"}>
         <Image
           src="/assets/DownloadApple.png"
           alt="Download on the App Store"
