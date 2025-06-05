@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid #616874;
+  padding: 16px 120px;
+}
+
+.logo {
+  width: 44px;
+  height: 48px;
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 12px 32px;
+  font-weight: 600;
+
+  border-radius: 40px;
+  background-color: #0a0908;
+  display: flex;
+  align-items: center;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 40px;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.linkContainer:hover {
+  background: linear-gradient(96deg, #f2ff00 18.12%, #16fad2 79.26%);
+}
+
+@media (max-width: 1024) {
+  .container {
+    padding: 24px 40px;
+  }
+}

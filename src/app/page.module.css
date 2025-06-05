@@ -1,0 +1,122 @@
+.container {
+  padding: 90px 120px 180px 120px;
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 58px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 116%;
+  margin: 0 auto 20px auto;
+}
+
+.subtitle {
+  color: #c2c4c7;
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 25.2px */
+  letter-spacing: 0.36px;
+  margin: 0 auto 60px auto;
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 12px 32px;
+  font-weight: 600;
+  border-radius: 40px;
+  background-color: #0a0908;
+  display: flex;
+  align-items: center;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 40px;
+  background: linear-gradient(96deg, #f2ff00 18.12%, #16fad2 79.26%);
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 80px;
+}
+
+.linkContainer:hover {
+  /* background: linear-gradient(96deg, #f2ff00 18.12%, #16fad2 79.26%); */
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.screenShots {
+  max-width: 1200px;
+  height: auto;
+  width: 100%;
+}
+
+.screenShotsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.downloadApple {
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 60px 40px 120px 40px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 60px 40px 100px 40px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .container {
+    padding: 40px 20px 60px 20px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    margin: 0 auto 30px auto;
+  }
+
+  .linkContainer {
+    margin-bottom: 40px;
+  }
+
+  .screenShotsContainer {
+    margin-bottom: 40px;
+  }
+}
