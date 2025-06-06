@@ -14,7 +14,7 @@ export default function Home() {
       </h2>
       <div className={styles.linkContainer}>
         <Link className={styles.link} href={"/"}>
-          Download
+          Get the App
         </Link>
       </div>
       <div className={styles.screenShotsContainer}>
