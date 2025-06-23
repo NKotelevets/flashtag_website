@@ -1,0 +1,131 @@
+.goBackButton {
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  color: #fff;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  margin-top: 86px;
+  margin-left: 80px;
+  position: sticky;
+}
+
+.container {
+  padding-left: 300px;
+  padding-right: 300px;
+}
+
+.titlePage {
+  text-align: center;
+  font-family: Inter;
+  font-size: 56px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  letter-spacing: 1.12px;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.effectiveDate {
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 28px */
+  margin-bottom: 20px;
+}
+
+.effectiveDate span {
+  color: #c2c4c7;
+  text-align: center;
+
+  /* Heading/H6 18px Medium */
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 25.2px */
+  letter-spacing: 0.36px;
+}
+
+.content {
+  color: #c2c4c7;
+
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+  letter-spacing: 0.36px;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #fff;
+  font-family: Inter;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 39.2px */
+  letter-spacing: 0.56px;
+  text-align: left;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.contentIndent {
+  text-indent: 2em;
+}
+
+.contentIndentDouble {
+  text-indent: 2em;
+  margin-left: 2em;
+}
+
+.tableTitle {
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 39.2px */
+  letter-spacing: 0.56px;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.linksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.container {
+  padding-bottom: 40px;
+}
+
+@media (max-width: 1400px) {
+  .container {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .goBackButton {
+    margin-left: 50px;
+  }
+}

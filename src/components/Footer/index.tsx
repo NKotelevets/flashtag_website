@@ -15,10 +15,10 @@ const Footer: React.FC = () => {
       />
       <div className={styles.linkContainer}>
         <div className={styles.linkRow}>
-          <Link className={styles.link} href="/">
+          <Link className={styles.link} href="/privacy-policy">
             Privacy Policy
           </Link>
-          <Link className={styles.link} href="/">
+          <Link className={styles.link} href="/term-of-services">
             Terms of Service
           </Link>
         </div>
