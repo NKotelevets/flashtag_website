@@ -14,18 +14,42 @@ const Footer: React.FC = () => {
         className={styles.logo}
       />
       <div className={styles.linkContainer}>
-        <div className={styles.linkRow}>
-          <Link className={styles.link} href="/privacy-policy">
-            Privacy Policy
-          </Link>
-          <Link className={styles.link} href="/term-of-services">
-            Terms of Service
-          </Link>
+        <div className={styles.titleWrapper}>
+          <div>
+            <p className={styles.titleCategory}>Contact Us:</p>
+          </div>
+          <div className={styles.socialsWrapper}>
+            <Link
+              href="https://www.instagram.com/flashboardapp/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/assets/instagram.png"
+                alt="Logo"
+                width="225"
+                height="44"
+                className={styles.instagram}
+              />
+            </Link>
+
+            <p className={styles.phoneNumber}>+1 (646) 988 - 3844</p>
+          </div>
         </div>
-        <div className={styles.copyrightContainer}>
-          <span className={styles.copyright}>
-            © {new Date().getFullYear()} Flashboard
-          </span>
+        <div className={styles.linksWrapper}>
+          <div className={styles.linkRow}>
+            <Link className={styles.link} href="/privacy-policy">
+              Privacy Policy
+            </Link>
+            <Link className={styles.link} href="/term-of-services">
+              Terms of Service
+            </Link>
+          </div>
+          <div className={styles.copyrightContainer}>
+            <span className={styles.copyright}>
+              © {new Date().getFullYear()} Flashboard
+            </span>
+          </div>
         </div>
       </div>
     </footer>
