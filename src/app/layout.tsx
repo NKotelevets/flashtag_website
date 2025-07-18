@@ -10,7 +10,7 @@ const geistInter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Flashtag",
+  title: "Flashboard",
   description: "Social platform for influencers competing, targeted at Gen Z.",
 };
 
