@@ -41,7 +41,7 @@ export default function RootLayout({
         />
         <link rel="manifest" href="/site.webmanifest"></link>
       </head>
-      <body className={`${geistInter.variable}`}>
+      <body className={`${geistInter.variable}`} suppressHydrationWarning>
         <Header />
         {children}
         <Footer />

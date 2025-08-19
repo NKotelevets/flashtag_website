@@ -1,9 +1,17 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
 const Footer: React.FC = () => {
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   const phoneSvg = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +91,7 @@ const Footer: React.FC = () => {
         </div>
         <div className={styles.copyrightContainer}>
           <span className={styles.copyright}>
-            © {new Date().getFullYear()} Flashboard
+            © {currentYear || "2025"} Flashboard
           </span>
         </div>
       </div>
