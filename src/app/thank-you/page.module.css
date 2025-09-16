@@ -1,0 +1,39 @@
+.wrapper {
+  background-color: #0a0908;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 120px 24px 160px 24px;
+  text-align: center;
+}
+
+.illustrationWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #c2c4c7;
+  font-size: 16px;
+}
+
+.subtitle span {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 40px;
+  }
+}
