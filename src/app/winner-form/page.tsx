@@ -24,7 +24,7 @@ function isValidCalendarDate(maskedDob: string): boolean {
   );
 }
 
-function isAdult(maskedDob: string): boolean {
+function isAtMost18(maskedDob: string): boolean {
   const match = maskedDob.match(/^(\d{2}) \/ (\d{2}) \/ (\d{4})$/);
   if (!match) return false;
   const month = Number(match[1]);
@@ -37,30 +37,44 @@ function isAdult(maskedDob: string): boolean {
     today.getMonth(),
     today.getDate()
   );
-  return dob <= eighteen; // strictly older than or equal to 18 years
+  return dob >= eighteen; // age is 18 years or younger
 }
 
-const FormSchema = z.object({
-  parentFirstName: z.string().min(1, "Required"),
-  parentLastName: z.string().min(1, "Required"),
-  parentEmail: z.string().email("Invalid email"),
-  relation: z.enum([
-    "parent",
-    "guardian",
-    "step-parent",
-    "grandparent",
-    "other",
-  ] as const),
-  minorFirstName: z.string().min(1, "Required"),
-  minorLastName: z.string().min(1, "Required"),
-  minorDob: z
-    .string()
-    .min(1, "Required")
-    .refine((v) => dobRegex.test(v) && isValidCalendarDate(v), {
-      message: "Invalid date",
-    })
-    .refine((v) => isAdult(v), { message: "Must be 18+" }),
-});
+const FormSchema = z
+  .object({
+    parentFirstName: z.string().min(1, "Required"),
+    parentLastName: z.string().min(1, "Required"),
+    parentEmail: z.string().email("Invalid email"),
+    relation: z.enum([
+      "parent",
+      "guardian",
+      "step-parent",
+      "grandparent",
+      "other",
+    ] as const),
+    otherRelation: z.string().optional(),
+    minorFirstName: z.string().min(1, "Required"),
+    minorLastName: z.string().min(1, "Required"),
+    minorDob: z
+      .string()
+      .min(1, "Required")
+      .refine((v) => dobRegex.test(v) && isValidCalendarDate(v), {
+        message: "Invalid date",
+      })
+      .refine((v) => isAtMost18(v), { message: "Must be 18 or under" }),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.relation === "other" &&
+      (!data.otherRelation || data.otherRelation.trim() === "")
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Required",
+        path: ["otherRelation"],
+      });
+    }
+  });
 
 type FormValues = z.infer<typeof FormSchema>;
 
@@ -70,12 +84,14 @@ export default function WinnerFormPage() {
     register,
     handleSubmit,
     control,
+    watch,
     setError,
     formState: { errors },
   } = useForm<FormValues>({
     mode: "onChange",
     reValidateMode: "onChange",
     criteriaMode: "all",
+    shouldUnregister: true,
   });
 
   const onSubmit = (data: FormValues) => {
@@ -159,6 +175,21 @@ export default function WinnerFormPage() {
                   {...register("relation", { required: "Required" })}
                 />
               </div>
+              {watch("relation") === "other" && (
+                <div style={{ marginTop: 14 }}>
+                  <TextField
+                    label="Other"
+                    placeholder="Please specify...."
+                    error={errors.otherRelation?.message}
+                    {...register("otherRelation", {
+                      validate: (v) =>
+                        watch("relation") !== "other" ||
+                        (v && v.trim() !== "") ||
+                        "Required",
+                    })}
+                  />
+                </div>
+              )}
               <span
                 className={`${styles.helper} ${
                   errors.relation ? styles.error : ""
@@ -195,7 +226,7 @@ export default function WinnerFormPage() {
                     !v ||
                     (dobRegex.test(v) && isValidCalendarDate(v)) ||
                     "Invalid date",
-                  age: (v) => !v || isAdult(v) || "Must be 18+",
+                  age: (v) => !v || isAtMost18(v) || "Must be 18 or under",
                 },
               }}
               render={({ field }) => {
