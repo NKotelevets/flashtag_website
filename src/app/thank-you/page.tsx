@@ -1,7 +1,22 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 
+const STORAGE_KEY = "winnerFullName";
+
 export default function ThankYouPage() {
+  const [winnerName, setWinnerName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    setWinnerName(stored);
+  }, []);
+
+  const displayName = winnerName?.trim() || "The winner";
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -17,7 +32,7 @@ export default function ThankYouPage() {
         </div>
         <h1 className={styles.title}>Thank you!</h1>
         <p className={styles.subtitle}>
-          <span>Luke Harris</span> can now claim the prize within the app by
+          <span>{displayName}</span> can now claim the prize within the app by
           messaging Flashboard.
         </p>
       </div>
