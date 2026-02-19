@@ -17,7 +17,7 @@ type State = "loading" | "success" | "error" | "no_token";
 
 function CongratulationsContent() {
   const searchParams = useSearchParams();
-  const token = searchParams.get("code") ?? "";
+  const token = searchParams?.get("code") ?? "";
 
   const [state, setState] = useState<State>(token ? "loading" : "no_token");
   const [data, setData] = useState<WinValidationResponse | null>(null);
