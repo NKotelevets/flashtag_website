@@ -90,7 +90,10 @@ function CongratulationsContent() {
     data?.first_name && data?.last_name
       ? `${data.first_name} ${data.last_name}`
       : "";
-  const amount = data?.win_amount != null ? `$${data.win_amount}` : "";
+  const amount =
+    data?.win_amount != null
+      ? `$${(data.win_amount / 100).toFixed(2)}`
+      : "";
   const winnerFormHref = `/winner-form?code=${encodeURIComponent(token)}`;
 
   return (
