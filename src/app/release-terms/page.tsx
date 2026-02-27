@@ -39,7 +39,9 @@ export default function ReleaseTermsPage() {
         payload?: ParentalReleaseSubmitPayload;
       };
 
-      const codeFromUrl = new URLSearchParams(window.location.search).get("code");
+      const codeFromUrl = new URLSearchParams(window.location.search).get(
+        "code",
+      );
       const code = draft.code?.trim() || codeFromUrl || "";
 
       if (!code) {
