@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 // Using manual safeParse to avoid runtime throws in dev overlay
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const dobRegex =
   /^(0[1-9]|1[0-2]) \/ (0[1-9]|[12][0-9]|3[01]) \/ (19|20)\d{2}$/;
@@ -38,6 +38,15 @@ function isAtMost18(maskedDob: string): boolean {
     today.getDate()
   );
   return dob >= eighteen; // age is 18 years or younger
+}
+
+function toApiBirthDate(maskedDob: string): string {
+  const match = maskedDob.match(/^(\d{2}) \/ (\d{2}) \/ (\d{4})$/);
+  if (!match) return "";
+  const month = match[1];
+  const day = match[2];
+  const year = match[3];
+  return `${year}-${month}-${day}`;
 }
 
 const FormSchema = z
@@ -80,6 +89,9 @@ type FormValues = z.infer<typeof FormSchema>;
 
 export default function WinnerFormPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams?.get("code") ?? "";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
   const {
     register,
     handleSubmit,
@@ -94,7 +106,7 @@ export default function WinnerFormPage() {
     shouldUnregister: true,
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     const parsed = FormSchema.safeParse(data);
     if (!parsed.success) {
       parsed.error.issues.forEach((issue) => {
@@ -103,8 +115,47 @@ export default function WinnerFormPage() {
       });
       return;
     }
-    console.log("Winner form submit", parsed.data);
-    router.push("/release-terms");
+
+    if (!token) {
+      console.error("Missing code query parameter");
+      return;
+    }
+
+    const relation =
+      parsed.data.relation === "other"
+        ? parsed.data.otherRelation?.trim() ?? ""
+        : parsed.data.relation;
+
+    const payload = {
+      parent_first_name: parsed.data.parentFirstName.trim(),
+      parent_last_name: parsed.data.parentLastName.trim(),
+      parent_email: parsed.data.parentEmail.trim(),
+      relationship_to_minor: relation,
+      minor_first_name: parsed.data.minorFirstName.trim(),
+      minor_last_name: parsed.data.minorLastName.trim(),
+      minor_birth_date: toApiBirthDate(parsed.data.minorDob),
+      terms_accepted: true,
+    };
+
+    const url = `${baseUrl}/contest/win/parental-release-submit?code=${encodeURIComponent(token)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      router.push("/release-terms");
+    } catch (error) {
+      console.error("Failed to submit parental release form", error);
+    }
   };
 
   return (
