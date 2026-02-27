@@ -1,7 +1,80 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import Link from "next/link";
+
+type ParentalReleaseSubmitPayload = {
+  parent_first_name: string;
+  parent_last_name: string;
+  parent_email: string;
+  relationship_to_minor: string;
+  minor_first_name: string;
+  minor_last_name: string;
+  minor_birth_date: string;
+  terms_accepted: boolean;
+};
+
+const PARENTAL_RELEASE_DRAFT_KEY = "parental-release-submit-draft";
 
 export default function ReleaseTermsPage() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const onSubmit = async () => {
+    if (isSubmitting) return;
+
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    try {
+      const rawDraft = sessionStorage.getItem(PARENTAL_RELEASE_DRAFT_KEY);
+      if (!rawDraft) {
+        throw new Error("Missing parental release draft");
+      }
+
+      const draft = JSON.parse(rawDraft) as {
+        code?: string;
+        payload?: ParentalReleaseSubmitPayload;
+      };
+
+      const codeFromUrl = new URLSearchParams(window.location.search).get("code");
+      const code = draft.code?.trim() || codeFromUrl || "";
+
+      if (!code) {
+        throw new Error("Missing code query parameter");
+      }
+
+      if (!draft.payload) {
+        throw new Error("Missing parental release payload");
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
+      const url = `${baseUrl}/contest/win/parental-release-submit?code=${encodeURIComponent(code)}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(draft.payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      sessionStorage.removeItem(PARENTAL_RELEASE_DRAFT_KEY);
+      router.push("/thank-you");
+    } catch (error) {
+      console.error("Failed to submit parental release form", error);
+      setSubmitError("Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -79,10 +152,18 @@ export default function ReleaseTermsPage() {
         </p>
 
         <div className={styles.ctaContainer}>
-          <Link href="/thank-you" className={styles.ctaOuter}>
-            <span className={styles.ctaInner}>Submit</span>
-          </Link>
+          <button
+            type="button"
+            className={styles.ctaOuter}
+            onClick={onSubmit}
+            disabled={isSubmitting}
+          >
+            <span className={styles.ctaInner}>
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </span>
+          </button>
         </div>
+        {submitError && <p className={styles.submitError}>{submitError}</p>}
       </div>
     </div>
   );

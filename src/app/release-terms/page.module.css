@@ -63,6 +63,11 @@
   border: 0;
   cursor: pointer;
 }
+
+.ctaOuter:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 .ctaInner {
   color: #ffffff;
   text-decoration: none;
@@ -71,6 +76,13 @@
   background-color: #0a0908;
   border-radius: 40px;
   padding: 14px 40px;
+}
+
+.submitError {
+  margin-top: 16px;
+  text-align: center;
+  color: #ff9b9b;
+  font-size: 14px;
 }
 
 @media (max-width: 768px) {

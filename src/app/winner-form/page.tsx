@@ -87,12 +87,23 @@ const FormSchema = z
   });
 
 type FormValues = z.infer<typeof FormSchema>;
+type ParentalReleaseSubmitPayload = {
+  parent_first_name: string;
+  parent_last_name: string;
+  parent_email: string;
+  relationship_to_minor: string;
+  minor_first_name: string;
+  minor_last_name: string;
+  minor_birth_date: string;
+  terms_accepted: boolean;
+};
+
+const PARENTAL_RELEASE_DRAFT_KEY = "parental-release-submit-draft";
 
 function WinnerFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams?.get("code") ?? "";
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
   const {
     register,
     handleSubmit,
@@ -107,7 +118,7 @@ function WinnerFormContent() {
     shouldUnregister: true,
   });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = (data: FormValues) => {
     const parsed = FormSchema.safeParse(data);
     if (!parsed.success) {
       parsed.error.issues.forEach((issue) => {
@@ -127,7 +138,7 @@ function WinnerFormContent() {
         ? parsed.data.otherRelation?.trim() ?? ""
         : parsed.data.relation;
 
-    const payload = {
+    const payload: ParentalReleaseSubmitPayload = {
       parent_first_name: parsed.data.parentFirstName.trim(),
       parent_last_name: parsed.data.parentLastName.trim(),
       parent_email: parsed.data.parentEmail.trim(),
@@ -138,24 +149,17 @@ function WinnerFormContent() {
       terms_accepted: true,
     };
 
-    const url = `${baseUrl}/contest/win/parental-release-submit?code=${encodeURIComponent(token)}`;
-
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-
-      router.push("/release-terms");
+      sessionStorage.setItem(
+        PARENTAL_RELEASE_DRAFT_KEY,
+        JSON.stringify({
+          code: token,
+          payload,
+        })
+      );
+      router.push(`/release-terms?code=${encodeURIComponent(token)}`);
     } catch (error) {
-      console.error("Failed to submit parental release form", error);
+      console.error("Failed to persist parental release draft", error);
     }
   };
 
