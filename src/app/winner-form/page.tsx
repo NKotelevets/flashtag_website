@@ -2,6 +2,7 @@
 import TextField from "@/components/ui/TextField";
 import Radio from "@/components/ui/Radio";
 import styles from "./page.module.css";
+import { Suspense } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 // Using manual safeParse to avoid runtime throws in dev overlay
@@ -87,7 +88,7 @@ const FormSchema = z
 
 type FormValues = z.infer<typeof FormSchema>;
 
-export default function WinnerFormPage() {
+function WinnerFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams?.get("code") ?? "";
@@ -315,5 +316,19 @@ export default function WinnerFormPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function WinnerFormPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className={styles.wrapper}>
+          <div className={styles.container} />
+        </div>
+      }
+    >
+      <WinnerFormContent />
+    </Suspense>
   );
 }
