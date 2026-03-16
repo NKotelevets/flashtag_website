@@ -14,7 +14,11 @@ const Header: React.FC = () => {
         className={styles.logo}
       />
       <div className={styles.linkContainer}>
-        <Link className={styles.link} href={"/"}>
+        <Link
+          className={styles.link}
+          href={"https://apps.apple.com/us/app/flashboard-app/id6748233793"}
+          target="_blank"
+        >
           Download
         </Link>
       </div>

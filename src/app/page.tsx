@@ -13,7 +13,11 @@ export default function Home() {
         and shine - one clip at a time.
       </h2>
       <div className={styles.linkContainer}>
-        <Link className={styles.link} href={"/"}>
+        <Link
+          className={styles.link}
+          href={"https://apps.apple.com/us/app/flashboard-app/id6748233793"}
+          target="_blank"
+        >
           Get the App
         </Link>
       </div>
@@ -27,7 +31,11 @@ export default function Home() {
         />
       </div>
 
-      <Link className={styles.link} href={"/"}>
+      <Link
+        className={styles.link}
+        href={"https://apps.apple.com/us/app/flashboard-app/id6748233793"}
+        target="_blank"
+      >
         <Image
           src="/assets/DownloadApple.png"
           alt="Download on the App Store"
